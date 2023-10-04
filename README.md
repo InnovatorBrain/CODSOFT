@@ -1,5 +1,5 @@
 <a href="">
-  <img align="center" src="https://img.shields.io/badge/Python%20|%20Programming-Concepts%20@Intern" alt="center">
+  <img align="center" src="https://img.shields.io/badge/Python%20|%20Programming- Concepts%20@Intern" alt="center">
 </a>
 
 # CODSOFT
