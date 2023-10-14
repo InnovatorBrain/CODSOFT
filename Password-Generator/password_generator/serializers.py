@@ -1,8 +1,9 @@
+# password_generator/serializers.py
 from rest_framework import serializers
-from .models import *
+from .models import Password
 
-class GenPasswordSerializer(serializers.ModelSerializer):
+
+class PasswordSerializer(serializers.ModelSerializer):
     class Meta:
-        model: GenPassword
-        fields = '__all__'
-        
+        model = Password
+        fields = ("id", "length", "value")

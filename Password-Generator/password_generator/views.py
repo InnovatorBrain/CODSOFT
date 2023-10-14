@@ -1,24 +1,36 @@
 import random
 import string
-from django.shortcuts import render
-from rest_framework.views import APIView
+from rest_framework import viewsets, status
 from rest_framework.response import Response
-from rest_framework import status
-from .models import GenPassword
-from .serializers import GenPasswordSerializer
+from .models import Password
+from .serializers import PasswordSerializer
 
-class PasswordGenerator(APIView):
-    def get(self, request, length):
+
+class PasswordGenerateViewSet(viewsets.ModelViewSet):
+    queryset = Password.objects.all()
+    serializer_class = PasswordSerializer
+
+    def create(self, request, *args, **kwargs):
+        length = request.data.get("length")
+
+        try:
+            length = int(length)  # Convert the string to an integer.
+        except ValueError:
+            return Response(
+                {"length": "Invalid value. Please provide an integer."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if length <= 0:
+            return Response(
+                {"length": "Length must be a positive number."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         characters = string.ascii_letters + string.digits + string.punctuation
-        password = ''.join(random.choice(characters) for _ in range(length))
-        serializer = GenPasswordSerializer(data={'password': password})
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'password': password}, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        generated_password = "".join(random.choice(characters) for _ in range(length))
 
-class GeneratedPasswordList(APIView):
-    def get(self, request):
-        passwords = GenPassword.objects.all()
-        serializer = GenPasswordSerializer(passwords, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        password = Password.objects.create(length=length, value=generated_password)
+        serializer = PasswordSerializer(password)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
