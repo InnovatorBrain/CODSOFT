@@ -8,11 +8,6 @@ router = DefaultRouter()
 router.register(r'task', TaskViewSet)
 
 urlpatterns = [
-    path('task-list/', TaskViewSet.as_view({'get': 'list'}), name='task-list'),
-    path('task-detail/<str:pk>/', TaskViewSet.as_view({'get': 'retrieve'}), name='task-detail'),
-    path('task-create/', TaskViewSet.as_view({'post': 'create'}), name='task-create'),
-    path('task-update/<str:pk>/', TaskViewSet.as_view({'put': 'update'}), name='task-update'),
-    path('task-delete/<str:pk>/', TaskViewSet.as_view({'delete': 'destroy'}), name='task-delete'),
-    path('', include(router.urls)),   
-    path('', TaskViewSet.as_view({'get': 'list'})),
+    path('', include(router.urls)), 
+    path('task/', TaskViewSet.as_view({'get': 'list'})),
 ]
