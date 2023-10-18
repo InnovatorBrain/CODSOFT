@@ -14,7 +14,7 @@ class PasswordGenerateViewSet(viewsets.ModelViewSet):
         length = request.data.get("length")
 
         try:
-            length = int(length)  # Convert the string to an integer.
+            length = int(length)
         except ValueError:
             return Response(
                 {"length": "Invalid value. Please provide an integer."},
