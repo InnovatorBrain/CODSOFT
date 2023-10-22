@@ -5,3 +5,6 @@
 # CODSOFT
 
 The repository housing the brilliant creations of @CodeSoft Projects.
+
+The Password of all apps Admin is:
+`faizy`
